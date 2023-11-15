@@ -1,6 +1,8 @@
 #include "shell.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 
-void exec_input(const char *command);
+void exec_input(const char *command)
 {
 pid_t child_pid = fork();
 
@@ -35,7 +37,7 @@ exit(EXIT_FAILURE);
 }
 else
 {
-/** Parent process **/
+/** wait - Parent process **/
 wait(NULL);
 }
 }
