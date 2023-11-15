@@ -11,5 +11,5 @@ print_f("Error while reading input.\n");
 exit(EXIT_FAILURE);
 }
 }
-command[strcspn(command, "\n")] = '\0'; // Remove newline
+command[strcspn(command, "\n")] = '\0';
 }

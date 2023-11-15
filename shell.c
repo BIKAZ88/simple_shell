@@ -11,9 +11,9 @@ int main(void)
 char command[120];
 while (true)
 {
-view_pointer(void);
-read_input(char *command, size_t size);
-exec_input(const char *command);
+view_pointer();
+read_input(command, sizeof(command));
+exec_input(command);
 }
 return (0);
 }
