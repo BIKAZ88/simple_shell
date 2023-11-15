@@ -1,19 +1,17 @@
 #include "shell.h"
 
 /**
- * main - implements a simple shell
- *
- * Return: EXIT_SUCCESS.
- */
+ * main - func with infinite loop
+ * @ac: No use
+ * @av: No use
+ * Return: loop.
+ **/
+int main(int ac, char **av)
+{
+	(void)av;
+	(void)ac;
 
-int main(void)
-{
-char command[120];
-while (true)
-{
-view_pointer();
-read_input(command, sizeof(command));
-exec_input(command);
-}
-return (0);
+	signal(SIGINT, controlC);
+	prompt();
+	return (0);
 }

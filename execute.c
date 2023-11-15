@@ -1,43 +1,49 @@
 #include "shell.h"
-#include <sys/types.h>
-#include <sys/wait.h>
 
-void exec_input(const char *command)
+/**
+ * execute_proc - similar to puts in C
+ * @cmd: a pointer the integer we want to set to 402
+ *
+ * Return: int
+ */
+void execute_proc(char **cmd)
 {
-pid_t child_pid = fork();
 
-if (child_pid == -1)
-{
-print_f("Error forking process.\n");
-exit(EXIT_FAILURE);
-}
-else if (child_pid == 0)
-{
-/** Child process **/
+	char *parametro = (*(cmd + 1));
+	char *s, *slash = "/";
+	char *o;
 
-/** Parse the command and its arguments **/
-char *args[128]; /** Maximum 128 arguments (adjust as needed)**/
-int arg_count = 0;
+	char *vartoprint = *cmd;
+	char *argv[4];
 
-char *token = strtok((char *)command, " ");
-while (token != NULL)
-{
-args[arg_count++] = token;
-token = strtok(NULL, " ");
-}
-args[arg_count] = NULL;
-/**  Null-terminate the arguments array **/
+	if ((access(cmd[0], F_OK) == 0))
+	{
+		argv[0] = cmd[0];
+		argv[1] = parametro;
+		argv[2] = ".";
+		argv[3] = NULL;
 
-/** Execute the command **/
-execvp(args[0], args);
+		if (execve(argv[0], argv, NULL) == -1)
+		{
+			perror("Error");
+		}
+	}
+	else
+	{
+		o = find_command(vartoprint);
 
-/** If execvp fails, print an error message **/
-print_f("Error executing command.\n");
-exit(EXIT_FAILURE);
-}
-else
-{
-/** wait - Parent process **/
-wait(NULL);
-}
+		slash = str_concat(o, slash);
+
+		s = str_concat(slash, *cmd);
+
+		argv[0] = s;
+		argv[1] = parametro;
+		argv[2] = ".";
+		argv[3] = NULL;
+
+		if (execve(argv[0], argv, NULL) == -1)
+		{
+			perror("Error");
+		}
+	}
 }
